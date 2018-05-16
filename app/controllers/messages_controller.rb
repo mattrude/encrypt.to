@@ -1,4 +1,5 @@
 class MessagesController < ApplicationController
+  before_filter :set_locale
 
   require './lib/keyserver.rb' 
   require './lib/util.rb' 
@@ -11,7 +12,7 @@ class MessagesController < ApplicationController
     @uid.downcase! if @uid    
     if @uid
       # get local user  
-      @user = User.find(:first, :conditions => [ "lower(username) = ?", @uid.downcase ]) 
+      @user = User.where("lower(username) = ?", @uid.downcase).first 
       if @user
         # local user
         @pubkey = @user.public_key
@@ -48,11 +49,11 @@ class MessagesController < ApplicationController
       if @pubkey && @pubkey.include?("BEGIN PGP PUBLIC KEY BLOCK")
         format.html
       elsif @uid && @uid.include?("0x")
-        format.html { redirect_to "/", notice: "Sorry, this key-id has no associated email address. Please try again!" }
+        format.html { redirect_to "/", notice: t("messages.new.no_mail") }
       elsif @uid && @uid.include?("@")
-        format.html { redirect_to "/", notice: "Sorry, this email has no associated email public key. Please try again!" }
+        format.html { redirect_to "/", notice: t("messages.new.no_public_key") }
       else
-        format.html { redirect_to "/", notice: "Sorry, invalid link. Please use an email or key-id and try again!" }
+        format.html { redirect_to "/", notice: t("messages.new.invalid_link") }
       end  
     end
   end
@@ -66,30 +67,38 @@ class MessagesController < ApplicationController
     file = params[:message][:file].blank? ? nil : params[:message][:file]
     filename = params[:message][:filename].blank? ? nil : params[:message][:filename]
     # local user
-    user = User.find(:first, :conditions => [ "lower(username) = ?", to.downcase ]) 
+    user = User.where("lower(username) = ?", to.downcase).first
     to = user.email if user
     # protect spam
     tohash = Digest::MD5.hexdigest(to)
     fromhash = Digest::MD5.hexdigest(from)
-    spam = Message.find(:all, :conditions => ["created_at > ? and tohash = ?", DateTime.now - 5.minutes, tohash])
+    spam = Message.where("created_at > ? and tohash = ?", DateTime.now - 5.minutes, tohash)
     # render    
     respond_to do |format|
       if spam.size >= 5
         format.html { redirect_to "/", notice: 'Spam? Please wait 5 minutes!' }
       elsif Util.is_email?(to) and Util.is_email?(from) and spam.size <= 5 and body.include?("BEGIN PGP MESSAGE") and body.include?("END PGP MESSAGE")
         Message.create!(:tohash => tohash, :fromhash => fromhash) # ignore message body
-        MessageMailer.send_message(to, from, body, :file => file, :filename => filename).deliver
+        MessageMailer.send_message(to, from, body, :file => file, :filename => filename).deliver_now
         username = user.username.downcase if user
-        MessageMailer.thanks_message(to, from, username).deliver
+        MessageMailer.thanks_message(to, from, username).deliver_now
         if user
           format.html { redirect_to "/#{user.username}/thanks" }
         else
-          format.html { redirect_to "/", notice: 'Encrypted message sent! Thanks.' }
+          format.html { redirect_to "/", notice: t(".success_send") }
         end
       else
-        format.html { redirect_to "/", notice: 'Sorry something went wrong. Try again!' }
+        format.html { redirect_to "/", notice: t(".error_send") }
       end
     end
   end
-
+  
+  private
+  def set_locale
+    I18n.locale = http_accept_language.compatible_language_from(I18n.available_locales)
+  end
+  
+  def message_params
+    params.require(:message).permit(:tohash, :fromhash, :keyid)
+  end
 end

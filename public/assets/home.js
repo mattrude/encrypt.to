@@ -8,7 +8,7 @@ function validateKeyId($keyid) {
 }
 
 function validateEmail($email) {
-  var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+  var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,8})?$/;
   if (!emailReg.test($email)) {
     return false;
   } else {
@@ -25,7 +25,7 @@ function checkEmailAndKeyId() {
 }
 
 $(function(){
-	$("#key").focus();
+  //$("#key").focus();
 	//$("#try").prop('disabled', true);
 	// validate input
 	$('#key').bind('input propertychange', function() {

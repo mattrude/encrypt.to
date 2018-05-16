@@ -2,8 +2,7 @@ class User < ActiveRecord::Base
 
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
 
-  attr_accessible :public_key, :login, :username, :email, :password, :password_confirmation, :remember_me, :stripe_token, :css_form_background, :css_form_color, :form_attachment, :form_advanced_mode, :thanks_message
-  attr_accessor :login, :stripe_token
+  attr_accessor :name, :login, :stripe_token
   
   validates :public_key, :presence => { :message => 'Public key cannot be blank!' }
   validates :username, :uniqueness => { :message => 'Sorry, username exists!', :case_sensitive => false } 
@@ -31,7 +30,7 @@ class User < ActiveRecord::Base
         :email => email,
         :description => username,
         :card => stripe_token,
-        :plan => "pro5"
+        :plan => plan
       )
     else
       customer = Stripe::Customer.retrieve(customer_id)
@@ -57,7 +56,7 @@ class User < ActiveRecord::Base
       customer = Stripe::Customer.retrieve(customer_id)
       unless customer.nil? or customer.respond_to?('deleted')
         subscription = customer.subscriptions.data[0]
-        if subscription.status == 'active' or subscription.status == 'trialing'
+        if subscription && (subscription.status == 'active' or subscription.status == 'trialing')
           customer.cancel_subscription
         end
       end
@@ -69,7 +68,7 @@ class User < ActiveRecord::Base
   end
   
   def expire
-    MessageMailer.expire_email(self).deliver
+    MessageMailer.expire_email(self).deliver_now
     destroy
   end 
    

@@ -3,16 +3,15 @@
 <head>
   <title>Encrypt.to | Secure Contact Form</title>
 	<meta http-equiv="Pragma" content="no-cache">
-	<meta name="description" content="Send Encrypted Messages to 3.5 million PGP users by one click.">
+	<meta name="description" content="Send encrypted PGP messages by one click. GPG">
 	<meta name="keywords" content="pgp, openpgp, encryption, encrypt, privacy">
 	<meta name="robots" content="index,follow">
   <script src="/assets/jquery.js?<%= Time.now.to_i %>" type="text/javascript"></script>
-  <script src="/assets/jquery.form-validator.min.js?<%= Time.now.to_i %>" type="text/javascript"></script>
 	<script src="/assets/jscolor.js?<%= Time.now.to_i %>" type="text/javascript"></script>
-  <script src="/assets/openpgp.min.js?<%= Time.now.to_i %>" type="text/javascript"></script>
+  <script src="/assets/openpgp_v303.min.js?<%= Time.now.to_i %>" type="text/javascript"></script>
   <script src="/assets/<%= loadjs(request[:controller]) %>.js?<%= Time.now.to_i %>" type="text/javascript"></script>
-  <script src="/assets/validate.min.js?<%= Time.now.to_i %>" type="text/javascript"></script>
- 
+  <script src="/assets/countup.min.js?<%= Time.now.to_i %>" type="text/javascript"></script>
+  
   <link href="/assets/application.css?<%= Time.now.to_i %>" media="all" rel="stylesheet" type="text/css" />
   <link href="/assets/messages.css?<%= Time.now.to_i %>" media="all" rel="stylesheet" type="text/css" />
   <link href="/assets/pure-min.css?<%= Time.now.to_i %>" media="all" rel="stylesheet" type="text/css" />
@@ -25,13 +24,12 @@
 	<% unless request[:controller] == "messages" %>
 	<div>
 	    <div class="hero-titles">
-				  <h1 class="logo"><a href="/">En</a>
+				  <a href="/"><img class="logo" src="/assets/logo.png"></a>
 						<% if request[:controller] == "home" and !current_user %>
-						<div style="float:right;">
-							<a style="font-size: 40%;" class="pure-button pure-button-cta" href="/users/sign_in">Login</a>
+						<div style="float:right;padding-top: 15px;">
+							<a style="font-size: 80%;" class="pure-button pure-button-cta" href="/users/sign_in">Login</a>
 						</div>
 						<% end %>
-					</h1>
 			</div>
 
 	</div>

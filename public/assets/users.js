@@ -63,19 +63,25 @@ function check() {
 			var email = $('#user_email').val();
 			if (email !== "" && validateEmail($('#user_email').val()) && publicEmails.indexOf(email) !== -1) {
 				valid("Public key is valid.");
+        $("#submit").prop('disabled', false);
 			} else {
 				invalid("Email does not belong to the public key. Try again!");
+        $("#submit").prop('disabled', true);
 			}
 		}
 		catch(err) {
 			invalid("Sorry the public key is invalid. Try again!");
+      $("#submit").prop('disabled', true);
 		}	
 	}	
 }
 
 $(function(){
-	$("#submin").prop('disabled', false);
-	if (window.crypto && window.crypto.getRandomValues) {
+  var cryptoObj = window.crypto || window.msCrypto; // for IE 11
+  if (window.msCrypto) {
+      window.crypto = window.msCrypto;
+  }
+	if (cryptoObj && cryptoObj.getRandomValues) {
 		$('#user_public_key').bind('input propertychange', function() {
 			check();
 		});
@@ -96,7 +102,7 @@ $(function(){
       var subscription = {
         setupForm: function() {
           return $('.card_form').submit(function() {
-            $('input[type=submit]').prop('disabled', true);
+            //$('input[type=submit]').prop('disabled', true);
             if ($('#card_number').length) {
               subscription.processCard();
               return false;

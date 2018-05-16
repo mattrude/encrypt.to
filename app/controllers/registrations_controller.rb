@@ -1,13 +1,14 @@
 class RegistrationsController < Devise::RegistrationsController
 
   def create
+    params[:user][:plan] = "pro11"
     super
-    MessageMailer.welcome_email(@user).deliver unless @user.invalid?
+    MessageMailer.welcome_email(@user).deliver_now unless @user.invalid?
   end
   
   def destroy
     super
-    MessageMailer.expire_email(@user).deliver
+    MessageMailer.expire_email(@user).deliver_now
   end
 
   def update_card

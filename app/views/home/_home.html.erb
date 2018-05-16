@@ -1,20 +1,29 @@
 <div class="l-content">
 
-    <div class="information pure-g-r">
+    <div class="information pure-g">
         <div class="pure-u-1-2">
             <div class="l-box">
                 <h3 class="information-head">Hello <%= current_user.username %></h3>
 
 								<p>Your secure contact form: <a class="marker_success" href="/<%= current_user.username %>"><%= 'https://' + APP_CONFIG['host'] + '/' + current_user.username %></a></p>
 								
-								<p>Embed in your website:</p>
+								Embed popup link in your website<br />
 								<form class="pure-form pure-form-aligned">
 								<fieldset>
 									<div class="pure-control-group">
-										<textarea rows="5" cols="50"><a href="#" onclick='javascript:window.open("https://encrypt.to/<%= current_user.username %>", "_blank", "toolbar=no, scrollbars=no, resizable=yes, width=800, height=650");'>Secure Contact Form</a></textarea>
+										<textarea rows="4" cols="50"><a href="#" onclick='javascript:window.open("https://encrypt.to/<%= current_user.username %>", "_blank", "toolbar=no, scrollbars=no, resizable=yes, width=800, height=650");'>Secure Contact Form</a></textarea>
 									</div>
 								</fieldset>
 							</form>
+              
+							Embed form in your website<br />
+							<form class="pure-form pure-form-aligned">
+							<fieldset>
+								<div class="pure-control-group">
+									<textarea rows="3" cols="50"><iframe src="https://encrypt.to/<%= current_user.username %>" height="680" width="600"><p>Your browser does not support iframes.</p></iframe></textarea>
+								</div>
+							</fieldset>
+						</form>
 							
 								<% if !current_user.public_key %>
 
@@ -47,6 +56,8 @@
 								<%= link_to "Edit public key", "/#{current_user.username}/edit/publickey"  %>
 								<br><br>
 								<%= link_to "Edit form layout", "/#{current_user.username}/edit/layout"  %>
+								<br><br>
+								<%= link_to "Edit credit card", "/#{current_user.username}/edit/card"  %>
 								<br><br>
 								<%= link_to "Sign out", "/users/sign_out" %>
 

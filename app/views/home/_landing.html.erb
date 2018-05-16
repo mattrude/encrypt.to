@@ -3,38 +3,43 @@
 Please enable Javascript in your browser and then refresh this page!
 </div>
 </noscript>
-		
-		
-<div class="hero legal">
-    <div class="hero-titles">
-				<p><b><%= @count %> messages successfully delivered</b></p>
-				<p><h1>Send encrypted messages by one click</h1></p>
-				<br />
-				<p><h2>Encrypt.to/<input id="key" type="text" placeholder="email or key-id (0x...)"></h2></p>
-		    <p>The public key will be loaded from a <a target="_blank" href="https://sks-keyservers.net/status/">public keyserver</a></p>		
-		</div>
+	
 
-    <div class="hero-cta">
-      	
-				<p>
-		    	<button class="pure-button pure-button-primary" id="try">Try now</button>
-		    </p>
+
+<div class="hero legal">
+	
+    <div class="hero-titles">
+
 				
-    </div>
+				<p><h1>Send encrypted PGP messages with one click</h1><br />
+				<h2><i><span id="mycounter"></span> messages delivered</i></h2></p>
+
+		</div>
 		
 </div>
+
+<script>
+var numAnim = new CountUp("mycounter", 0, <%= @count %>);
+if (!numAnim.error) {
+    numAnim.start();
+} else {
+    console.error(numAnim.error);
+}
+</script>
+
+
 
 <div>	
     <div class="content legal">
         <div class="l-box">
 					
-            <h2><mark>Essentially a secure contact form</mark> </h2>						
+            <h2><mark>We believe privacy is a human right.</mark> </h2>						
 				
-						<p><b>Add a secure contact form to any site in minutes with no coding required.</b></p>
+						<p><b>Add the secure contact form to your website in minutes, no coding required.</b></p>
 				
 			<p>It encrypts the message with PGP (client-side) and sends it on to the mail account. A user who does not use PGP can send fairly secure mails to PGP-users. A simple vanity-style URL can be given to such users for easy access to the secure contact form.</p>
 			
-			<p><%= image_tag "/assets/form.png", :width => 750 %></p>
+			<p><%= image_tag "/assets/demo.gif", :width => 702 %></p>
 			
         </div>
     </div>	
@@ -49,9 +54,18 @@ Please enable Javascript in your browser and then refresh this page!
 				
 			<p>Open the link: <span class="marker_email">https://encrypt.to/{email}</span> or <span class="marker_email">https://encrypt.to/{key-id}</span></p>
 
-			<p>For example: <a href="/hello@encrypt.to">encrypt.to/hello@encrypt.to</a> belongs to <a target="_blank" href="http://pgpkey.org/pks/lookup?op=get&fingerprint=on&search=0x0CAF1E5B11489A1F"> this public key</a>.</p>
+			<p>For example: <a href="/hello@encrypt.to">encrypt.to/hello@encrypt.to</a> belongs to <a target="_blank" href="http://pool.sks-keyservers.net/pks/lookup?op=get&fingerprint=on&search=0x0CAF1E5B11489A1F"> this public key</a>.</p>
 			
-			<p><i><a href="#signup">* Sign up if your public key should be private!</a></i></p>
+			<p><h2>Encrypt.to/<input id="key" type="text" placeholder="email or key-id (0x...)"></h2></p>
+	    <p>The public key will be loaded from a <a target="_blank" href="https://sks-keyservers.net/status/">public keyserver</a></p>	
+      <div class="hero-cta">
+      	
+  				<p>
+  		    	<button class="pure-button pure-button-primary" id="try">Try now</button>
+  		    </p>
+				
+      </div>
+			<p><i><a href="#signup">* Sign up if your email address and public key should be private!</a></i></p>
 			
         </div>
     </div>	
@@ -64,23 +78,23 @@ Please enable Javascript in your browser and then refresh this page!
 					
             <h2><mark>Can I trust this service?</mark> </h2>						
 				
-			<p>We take the privacy of your data very seriously. Your browser encrypts the message before handing it to us! We're using <a target="_blank" href="http://en.wikipedia.org/wiki/End-to-end_encryption">End-to-end encryption</a> with OpenPGP.js. We cannot read your message!<p> 
+			<p>We take the privacy of your data very seriously. Your browser encrypts the message before handing it to us! We're using <a target="_blank" href="http://en.wikipedia.org/wiki/End-to-end_encryption">End-to-end encryption</a> with OpenPGP.js. We cannot decrypt your message!<p> 
 			
 			<p>Use the <a target="_blank" href="http://encrypt-to.github.io/">Security audit tool</a> to audit the deployed source code.</p>
 			
 			<%= image_tag "/assets/ssl-report.png" %>
 			
-			<p>* SSL Report: <a target="_blank" href="https://www.ssllabs.com/ssltest/analyze.html?d=encrypt.to">Assessed on: Mon Aug 18 19:10:51 UTC 2014.</a></p>
+			<p>* SSL Report: <a target="_blank" href="https://www.ssllabs.com/ssltest/analyze.html?d=encrypt.to">Assessed on: Sun, 25 Mar 2018 21:31:11 UTC</a></p>
 			
         </div>
     </div>	
 </div>
 
-<div class="pure-g-r marketing-ribbon">
+<div class="pure-g marketing-ribbon">
     <div class="pure-u-1-3">
         <div class="l-box">
             <h3>Open Source.</h3>
-            <p><%= image_tag "/assets/oss.png", :width => 128 %><br>The <a target="_blank" href="https://github.com/encrypt-to/encrypt.to">source code</a> is licensed under the MIT license and available on GitHub.</p>
+            <p><%= image_tag "/assets/oss.png", :width => 128 %><br>The <a target="_blank" href="https://github.com/encrypt-to/encrypt.to">source code</a> is licensed under MIT and available on GitHub. Available for Ruby, PHP and Perl. Simple deployment on your Webhost or Heroku.</p>
 
         </div>
     </div>
@@ -110,48 +124,59 @@ Please enable Javascript in your browser and then refresh this page!
 					
             <h2><mark>Pricing & Signup</mark></h2>						
 				
-						<p>Risk free! 14-day free trial.</p>
+						<p>Risk free! 7-days free trial.</p>
 
             <table class="pure-table">
               <thead>
                   <tr>
-											<th>Pro</th>
-											<th>Free</th>
+                      <th>Pro</th>
+											<th>Standard</th>
                   </tr>
               </thead>
                 <tbody>
                     <tr>
-                        <td><h2><mark>$5/month</mark></h2></td>
-												<td><h2>$0/month</h2></td>
+                        <td><h2><mark>$11/year</mark></h2></td>
+												<td><h2><mark>Free Forever</mark></h2></td>
                     </tr>
                     <tr class="pure-table-odd">
-												<td>Non-public key server</td>
-                        <td>Public key server</td>
+                      	<td>Send encrypted PGP messages</td>
+                        <td>Send encrypted PGP messages</td>
                     </tr>
                     <tr>
-												<td>Custom link with username</td>
-                        <td>Default link with email or key-id</td>
+                      <td>Custom link with username</td>
+                      <td>Link with email or key-id</td>
                     </tr>
                     <tr class="pure-table-odd">
-												<td>Embed form in your website</td>
+                      <td>25 MB attachment</td>
+                      <td>No attachment</td>
+                    </tr>
+                    <tr>
+                      <td>Hidden email address</td>
+                      <td>Public email address</td>                        
+                    </tr>
+                    <tr class="pure-table-odd">
+                        <td>Hidden key server</td>
+                        <td><a href="https://sks-keyservers.net/status/" target="_blank">Public key server</a></td>
+                    </tr>                  
+                    <tr>
+                        <td>Manage your public key</td>
+                        <td>-</td>
+                    </tr>
+                    <tr class="pure-table-odd">
+                        <td>Embed form in your website</td>
                         <td>-</td>
                     </tr>
                     <tr>
-												<td>Custom layout and colors</td>
+                        <td>Custom layout and colors</td>
                         <td>-</td>
-                    </tr>
-                    <tr class="pure-table-odd">
-												<td>No branding</td>
-                        <td>-</td>
-                    </tr>                 
+                    </tr>             
                     <tr>
                         <td><a class="pure-button pure-button-cta" href="/users/sign_up">Sign Up</a></td>
 												<td><a class="pure-button pure-button-disabled" href="#">No sign up needed</a></td>
                     </tr>
                 </tbody>
             </table>
-
-			<p>Need a custom solution? No problem. Please <a href="/hello@encrypt.to">contact us</a></p>
+          	<p><%= image_tag "/assets/bitcoin.png", width: '100px' %><br>Need a custom solution? Wanna pay with bitcoin? No problem. Please <a href="/hello@encrypt.to">contact us!</a></p>
 			  </div>
     </div>	
 </div>
@@ -160,7 +185,7 @@ Please enable Javascript in your browser and then refresh this page!
     <div class="content legal">
         <div class="l-box">
             <h2><mark>Browser Compatibility</mark></h2>
-            <p>We need a cryptographically secure PRNG to be implemented (i.e. the window.crypto method) based on <a target="_blank" href="http://www.w3.org/TR/WebCryptoAPI/">Web Cryptography API</a> <i>(W3C Working Draft 25 June 2013)</i>.</p>
+            <p>We need a cryptographically secure PRNG to be implemented (i.e. the window.crypto method) based on <a target="_blank" href="http://caniuse.com/#feat=cryptography">Web Cryptography API</a> <i>(W3C Candidate Recommendation 11 December 2014)</i>.</p>
             <table class="pure-table pure-table-horizontal">
               <thead>
                   <tr>
@@ -172,28 +197,23 @@ Please enable Javascript in your browser and then refresh this page!
                 <tbody>
                     <tr>
                         <td>Chrome</td>
-                        <td>>= 11</td>
-                        <td>>= 23</td>
+                        <td>>= 37</td>
+                        <td>>= 64</td>
                     </tr>
                     <tr class="pure-table-odd">
                         <td>Firefox</td>
-                        <td>>= 21</td>
-                        <td>>= 21</td>
+                        <td>>= 34</td>
+                        <td>-</td>
                     </tr>
                     <tr>
-                        <td>IE</td>
-                        <td>>= 11</td>
-                        <td>-</td>
+                        <td>Opera</td>
+                        <td>>= 24</td>
+                        <td>>= 37</td>
                     </tr>
                     <tr class="pure-table-odd">
-                        <td>Opera</td>
-                        <td>>= 15</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
                         <td>Safari</td>
-                        <td>>= 3.1</td>
-                        <td>>= iOS 6</td>
+                        <td>>= 7.1</td>
+                        <td>>= iOS 8</td>
                     </tr>
                 </tbody>
             </table>
@@ -211,6 +231,10 @@ Please enable Javascript in your browser and then refresh this page!
 
 <p><%= image_tag "/assets/gpgtools.png", :height => 50 %><%= image_tag "/assets/seahorse.png", :height => 50 %><%= image_tag "/assets/gpg4win.png", :height => 50 %></p>
 
+<p>Join a <a target="_blank" href="https://twitter.com/encrypt_to/lists/crypto-party">CryptoParty</a> in your neighborhood!</p>
+
+<p><%= image_tag "/assets/cryptoparty.png", :height => 50 %></>
+
 <p style="font-size:small;">
  * I don't know what you talkin 'bout. <a target="_blank" href="http://en.wikipedia.org/wiki/Pretty_Good_Privacy">Read how PGP works.</a>
 </p>
@@ -221,29 +245,15 @@ Please enable Javascript in your browser and then refresh this page!
 <div>	
     <div class="content legal">
         <div class="l-box">
-            <h2><mark>Can I host this myself?</mark></h2>
-			<p>Yes, you can. The software is available for <a target="_blank" href="https://github.com/encrypt-to/secure.contactform.ruby">Ruby</a>, <a target="_blank" href="https://github.com/encrypt-to/secure.contactform.php">PHP</a> and <a target="_blank" href="https://github.com/encrypt-to/secure.contactform.perl">Perl</a>. Simple deployment on your Webhost or Heroku.</p>						
-        </div>
-    </div>	
-</div>
-
-<div>	
-    <div class="content legal">
-        <div class="l-box">
-            <h2><mark>API v1</mark></h2>
+      <h2><mark>API v1</mark></h2>
 			<p>All API access is over HTTPS and accessed from https://encrypt.to/api/v1/. All data is sent and received as JSON.</p>
-			<br />
-			<h3>Client errors</h3>
-			<pre>curl https://encrypt.to/api/v1/keyserver/lookup</pre>
-			<pre>{"status":"error","message":"Wrong params, please try again."}</pre>
-			<br />
 			<h3>Get public key by email</h3>
 			<pre>curl https://encrypt.to/api/v1/keyserver/lookup?email=hello@encrypt.to</pre>
 			<pre>{"status":"success","keys":[{"key_id":"0x11489A1F","public_key":"-----BEGIN PGP PUBLIC KEY BLOCK-----"}]}</pre>
 			<br />
 			<h3>Get public key by key id</h3>
 			<pre>curl https://encrypt.to/api/v1/keyserver/lookup?keyid=0x11489A1F</pre>			
-			<pre>{"status":"success","keys":[{"key_id":"0x11489A1F","public_key":"-----BEGIN PGP PUBLIC KEY BLOCK-----"}]}</pre>	
+			<pre>{"status":"success","keys":[{"key_id":"0x11489A1F","public_key":"-----BEGIN PGP PUBLIC KEY BLOCK-----"}]}</pre>  
         </div>
     </div>	
 </div>
@@ -251,8 +261,8 @@ Please enable Javascript in your browser and then refresh this page!
 <div>	
     <div class="content">
         <div class="l-box">
-			<p><i>© 2014 Encrypt.to&nbsp;&nbsp;&nbsp;<a target="_blank" href="https://twitter.com/encrypt_to">Twitter</a>&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://wiegelmann.net">About</a>&nbsp;&nbsp;&nbsp;<a href="/privacy">Privacy</a>&nbsp;&nbsp;&nbsp;<a href="/terms">Terms</a>&nbsp;&nbsp;&nbsp;<a href="/0x0CAF1E5B11489A1F">Contact</a>&nbsp;&nbsp;&nbsp;<a href="/users/sign_in">Login</a></i></p>
-			<h5><mark>Privacy is a human right.</mark></h5>
+			<p><i>©Encrypt.to&nbsp;&nbsp;&nbsp;<a target="_blank" href="https://twitter.com/encrypt_to">Twitter</a>&nbsp;&nbsp;&nbsp;<a href="/privacy">Privacy</a>&nbsp;&nbsp;&nbsp;<a href="/terms">Terms</a>&nbsp;&nbsp;&nbsp;<a href="/0x0CAF1E5B11489A1F">Contact</a>&nbsp;&nbsp;&nbsp;<a href="/users/sign_in">Login</a>&nbsp;&nbsp;&nbsp;<a href="https://github.com/encrypt-to/encrypt.to">Github</a>&nbsp;&nbsp;&nbsp;<a href="/blog">Blog</a></i></p>
+
 			
         </div>
     </div>	
